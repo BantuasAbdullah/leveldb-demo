@@ -6,6 +6,12 @@ db.put("activity", "demo level db",  function (err) {
   if (err) {
     console.log("opss", err);
   } else  {
-    console.log("saved");
+    db.get("activity", function(err, value) {
+      if (err) {
+        console.log("opps", err);
+      } else {
+        console.log("data is ", value);
+      }
+    })
   }
 })
