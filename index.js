@@ -1,1 +1,3 @@
-console.log("Hello There");
+var level = require('level');
+
+var db = level("./test-db");
