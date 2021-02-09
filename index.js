@@ -1,23 +1,28 @@
 var level = require('level');
 
-var db = level("./test-db");
-saveActivity("demo level db part 2");
+var db = level("./test-db", {valueEncoding:"json"});
+async function main() {
+  await saveActivity({name:"LevelDB Demo", participants:["Lupin", "Luffy"]});
+  var data = await getActivity();
+  console.log("new data is ", data);
+  console.log(typeof data);
 
-function saveActivity(name) {
-  db.put("activity", name,  function (err) {
-    if (err) {
-      console.log("opss", err);
-    } else  {
-      getActivity();
-    }
-  })
+  await deleteActivity();
+  try {
+    await getActivity();
+  } catch(e) {
+    console.log("data is deleted");
+  }
 }
-function getActivity() {
-  db.get("activity", function(err, value) {
-    if (err) {
-      console.log("opps", err);
-    } else {
-      console.log("data is ", value);
-    }
-  })
+main();
+
+async function saveActivity(name) {
+  await db.put("activity", name);
+}
+async function getActivity() {
+   return await db.get("activity");
+}
+
+async function deleteActivity() {
+  await db.del("activity");
 }
