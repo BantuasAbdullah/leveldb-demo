@@ -1,17 +1,23 @@
 var level = require('level');
 
 var db = level("./test-db");
+saveActivity("demo level db part 2");
 
-db.put("activity", "demo level db",  function (err) {
-  if (err) {
-    console.log("opss", err);
-  } else  {
-    db.get("activity", function(err, value) {
-      if (err) {
-        console.log("opps", err);
-      } else {
-        console.log("data is ", value);
-      }
-    })
-  }
-})
+function saveActivity(name) {
+  db.put("activity", name,  function (err) {
+    if (err) {
+      console.log("opss", err);
+    } else  {
+      getActivity();
+    }
+  })
+}
+function getActivity() {
+  db.get("activity", function(err, value) {
+    if (err) {
+      console.log("opps", err);
+    } else {
+      console.log("data is ", value);
+    }
+  })
+}
